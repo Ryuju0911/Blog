@@ -55,6 +55,8 @@ app.post('/posts/:id/edit', async (req, res) => {
 app.post('/events', async (req, res) => {
   console.log('Event Received', req.body.type);
 
+  const { type, data } = req.body;
+
   if (type === 'PostDeleted') {
     const postId = data;
 
