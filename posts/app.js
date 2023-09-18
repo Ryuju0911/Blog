@@ -53,26 +53,6 @@ app.post('/posts/:id/edit', async (req, res) => {
 })
 
 app.post('/events', async (req, res) => {
-  console.log('Event Received', req.body.type);
-
-  const { type, data } = req.body;
-
-  if (type === 'PostDeleted') {
-    const postId = data;
-
-    try {
-      await Post.findOneAndDelete({ postId: postId });
-    } catch (err) {};
-  }
-
-  if (type === 'PostEdited') {
-    const { postId, title } = data;
-
-    const post = await Post.findOne({ postId: postId });
-    post.title = title;
-    await post.save();
-  }
-
   res.send({});
 });
 
