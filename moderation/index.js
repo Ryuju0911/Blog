@@ -14,8 +14,8 @@ app.post('/events', async (req, res) => {
 
   if (type === 'CommentCreated') {
     let status = 'approved';
-    for (word in ngWords) {
-      if (data.content.includes(word)) {
+    for (i in ngWords) {
+      if (data.content.includes(ngWords[i])) {
         status = 'rejected';
         break;
       }
