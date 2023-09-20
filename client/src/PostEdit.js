@@ -29,9 +29,9 @@ const PostEdit = ({ postId }) => {
     setTitle('');
   };
 
-  const refreshPage = () => {
+  const refreshPage = () => setTimeout(() => {
     window.location.reload();
-  }
+  }, 100);
 
   function openModal() {
     setIsOpen(true);

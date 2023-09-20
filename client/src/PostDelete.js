@@ -11,9 +11,9 @@ const PostDelete = ({ postId }) => {
     });
   };
 
-  const refreshPage = () => {
+  const refreshPage = () => setTimeout(() => {
     window.location.reload();
-  }
+  }, 100);
 
   return (
     <div>
