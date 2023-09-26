@@ -1,42 +1,19 @@
-const express = require('express');
-const bodyParser = require('body-parser');
 const axios = require('axios');
 
-const app = express();
-app.use(bodyParser.json());
+const { app, handleEvent } = require('./app');
 
-// Array of NG words.
-// Moderation process rejects comments containing any of the NG words.
-const ngWords = ['NG'];
+app.listen(4003, async () => {
+  console.log('Listening on 4003');
 
-app.post('/events', async (req, res) => {
-  console.log('Event Received', req.body.type);
-  
-  const { type, data } = req.body;
+  try {
+    const res = await axios.get('http://event-bus-srv:4005/events');
 
-  if (type === 'CommentCreated') {
-    let status = 'approved';
-    for (i in ngWords) {
-      if (data.content.includes(ngWords[i])) {
-        status = 'rejected';
-        break;
-      }
+    for (let event of res.data) {
+      console.log('Processing event: ', event.type);
+
+      handleEvent(event.type, event.data);
     }
-    
-    await axios.post('http://event-bus-srv:4005/events', {
-      type: 'CommentModerated',
-      data: {
-        commentId: data.commentId,
-        postId: data.postId,
-        status,
-        content: data.content,
-      }
-    });
+  } catch(error) {
+    console.log(error.message);
   }
-
-  res.send({});
-});
-
-app.listen(4003, () => {
-  console.log("Listening on 4003");
 });

@@ -37,7 +37,7 @@ app.post('/events', (req, res) => {
 });
 
 app.get('/events', (req, res) => {
-  res.send(eventBus.eventLog);
+  res.send(eventBus.untreatedEvents);
 });
 
 app.listen(4005, () => {

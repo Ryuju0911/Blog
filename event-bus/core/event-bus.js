@@ -5,6 +5,7 @@ class EventBus {
   constructor() {
     this.receiversByEventType = {};
     this.eventLog = [];
+    this.untreatedEvents = [];
   }
 
   subscribe(eventType, receiver) {
@@ -25,6 +26,7 @@ class EventBus {
     this.receiversByEventType[event.type].forEach(receiver => {
       axios.post(receiver, event).catch((err) => {
         console.log(err.message);
+        this.untreatedEvents.push(event);
       });
     });
   }
