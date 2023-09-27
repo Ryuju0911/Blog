@@ -37,3 +37,9 @@ The Query service is responsible for storing both posts and comments together. W
 
 ### Event Bus service
 The Event Bus service acts as a mediator, transforming events from senders to receivers. All events emitted by the other services are first sent to this service and then relayed to the other services to notify them of event occurrences.
+
+The Event Bus service utilizes a Pub/Sub model, where publishers emit events onto the shared bus, and these events are then delivered to the respective subscribers. One significant advantage of this approach is that, when data is newly introduced into the Pub/Sub model, there is no requirement to modify the original system to make it accessible to new queues or duplicate data.
+
+One notable feature of this service is its replay functionality. If, for any reason, it fails to deliver an event to a subscriber—such as during a service downtime—the event is pushed to an 'untreated events' queue. Once the service restarts, the event bus automatically resends the events from the 'untreated events' queue.
+
+![event-bus-service-overview](./images/App-Overview/event-bus-service-overview.jpg)
